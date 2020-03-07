@@ -9,7 +9,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { HomeService } from './home/home.service';
+
 
 @NgModule({
   declarations: [
@@ -29,8 +29,7 @@ import { HomeService } from './home/home.service';
       { path: 'fetch-data', component: FetchDataComponent },
     ])
   ],
-  providers: [
-    HomeService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
