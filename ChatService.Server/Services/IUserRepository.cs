@@ -7,7 +7,7 @@ namespace ChatService.Server.Models
 {
     public interface IUserRepository
     {
-        public User Register(User user);
+        public User Register(RegisterInputModel registerInputModel);
         public User Login(LoginInputModel loginInputModel);
 
     }

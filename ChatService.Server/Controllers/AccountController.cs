@@ -17,9 +17,9 @@ namespace ChatService.Server.Controllers
 
         [HttpPost]
         [Route("register")]
-        public IActionResult PostRegister(User user)
+        public IActionResult PostRegister(RegisterInputModel registerInputModel)
         {
-            var responose = this.userRepository.Register(user);
+            var responose = this.userRepository.Register(registerInputModel);
             try
             {
                 if (responose != null)

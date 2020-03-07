@@ -16,8 +16,8 @@ namespace ChatService.Server.Models
         public User Login(LoginInputModel loginInputModel)
         {
             var userCredentials = this.context.Users.Where(u => u.Username == loginInputModel.Username && u.Password == loginInputModel.Password).FirstOrDefault();
-           
-            if(userCredentials != null)
+
+            if (userCredentials != null)
             {
                 return userCredentials;
             }
@@ -25,10 +25,18 @@ namespace ChatService.Server.Models
             return userCredentials;
         }
 
-        public User Register(User user)
+        public User Register(RegisterInputModel registerInputModel)
         {
-            if (user != null)
+            User user = null;
+            var userExists = this.context.Users.Any(u => u.Username == registerInputModel.Username);
+
+            if (!userExists && registerInputModel.Password == registerInputModel.ConfirmPassword)
             {
+                user = new User
+                {
+                    Username = registerInputModel.Username,
+                    Password = registerInputModel.Password
+                };
                 this.context.Users.Add(user);
                 this.context.SaveChanges();
             }

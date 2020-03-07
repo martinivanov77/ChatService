@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace ChatService.Server.Models
 {
-    public class LoginInputModel
+    public class RegisterInputModel
     {
         public string Username { get; set; }
         public string Password { get; set; }
-
+        public string ConfirmPassword { get; set; }
     }
 }
