@@ -19,10 +19,11 @@ namespace ChatService.Server.Controllers
         [Route("register")]
         public IActionResult PostRegister(RegisterInputModel registerInputModel)
         {
+           
             var responose = this.userRepository.Register(registerInputModel);
             try
             {
-                if (responose != null)
+                if (responose != null && ModelState.IsValid)
                 {
                     return Ok(responose);
                 }
@@ -40,7 +41,7 @@ namespace ChatService.Server.Controllers
             var response = this.userRepository.Login(loginInputModel: loginInputModel);
             try
             {
-                if(response != null)
+                if(response != null && ModelState.IsValid)
                 {
                     return Ok(response);
                 }
