@@ -11,7 +11,9 @@ namespace ChatService.Server.Models
         [Required(ErrorMessage = "Please enter a username for your account!")]
         public string Username { get; set; }
         [Required(ErrorMessage = "Please enter a password!")]
+        [MinLength(4)]
         public string Password { get; set; }
+
         [Required(ErrorMessage = "Please confirm your password!")]
         public string ConfirmPassword { get; set; }
     }
