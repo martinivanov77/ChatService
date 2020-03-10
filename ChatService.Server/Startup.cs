@@ -29,7 +29,7 @@ namespace ChatService.Server
                 setup.AddPolicy("AllowAllRequests", policy =>
                 {
                     policy
-                    .WithOrigins("http://localhost:50963", "http://localhost:4200")
+                    .WithOrigins("http://localhost:4200") // only allow request fron the Angular Client hosted on localhost
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
