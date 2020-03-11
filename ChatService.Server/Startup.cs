@@ -8,6 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ChatService.Server
 {
@@ -29,7 +32,7 @@ namespace ChatService.Server
                 setup.AddPolicy("AllowAllRequests", policy =>
                 {
                     policy
-                    .WithOrigins("http://localhost:4200") // only allow requests from the Angular Client hosted on localhost
+                    .WithOrigins(Configuration["ApplicationSettings:ClientUrl"].ToString()) // only allow requests from the Angular Client hosted on localhost
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
@@ -47,6 +50,29 @@ namespace ChatService.Server
             services.AddScoped<IUserRepository, SQLUserRepository>();
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnectionString")));
 
+            //Jwt Authentication
+
+            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JwtSecret"].ToString()); 
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = false; //does not save the token on the server
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
